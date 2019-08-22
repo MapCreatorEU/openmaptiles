@@ -1,12 +1,9 @@
--- etldoc: layer_country[shape=record fillcolor=lightpink, style="rounded,filled",
--- etldoc:     label="layer_country |<z6> z6 |<z7> z7 |<z8> z8 |<z9> z9 |<z10> z10 |<z11> z11 |<z12> z12|<z13> z13|<z14> z14+" ] ;
-
 CREATE OR REPLACE FUNCTION layer_country(bbox geometry, zoom_level int, pixel_width numeric)
 RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en text, name_de text, tags hstore, rank int) AS $$
     SELECT osm_id, geometry, class, name, name_en, name_de, tags, rank
     FROM (
     SELECT osm_id, geometry,
-        'country' as class,
+        'country'::text as class,
         name, name_en, name_de, tags,
         NULL::int as rank
         FROM (
