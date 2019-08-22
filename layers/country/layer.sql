@@ -10,7 +10,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         -- etldoc: osm_country_polygon_gen8 -> layer_country:z6
         SELECT osm_id, geometry, name, name_en, name_de, tags, NULL::int as scalerank
         FROM osm_country_polygon_gen8
-        WHERE zoom_level = 6 AND geometry && bbox
+        WHERE zoom_level <= 6 AND geometry && bbox
         UNION ALL
         -- etldoc: osm_country_polygon_gen7 -> layer_country:z7
         SELECT osm_id, geometry, name, name_en, name_de, tags, NULL::int as scalerank
