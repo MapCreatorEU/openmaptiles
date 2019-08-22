@@ -66,6 +66,9 @@ tables:
     - name: name_de
       key: name:de
       type: string
+    - name: area
+      type: area
     mapping:
       admin_level:
       - 2
+      - 3
