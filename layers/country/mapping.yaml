@@ -70,5 +70,5 @@ tables:
       type: area
     mapping:
       admin_level:
-      - 2
-      - 3
+      - '2'
+      - '3'
