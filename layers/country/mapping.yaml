@@ -66,8 +66,12 @@ tables:
     - name: name_de
       key: name:de
       type: string
+    - name: tags
+      type: hstore_tags
     - name: area
       type: area
+    - name: webmerc_area
+      type: webmerc_area
     mapping:
       admin_level:
       - '2'
