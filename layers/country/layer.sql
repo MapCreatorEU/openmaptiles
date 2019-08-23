@@ -13,7 +13,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         FROM osm_country_polygon_gen8
         join lateral (
             select st_collectionextract(st_union(ocean.geometry), 3) as ocean
-            from osm_ocean_polygon ocean
+            from ne_10m_ocean ocean
             where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
         ) as ocean
         on true
@@ -25,7 +25,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         FROM osm_country_polygon_gen7
         join lateral (
             select st_collectionextract(st_union(ocean.geometry), 3) as ocean
-            from osm_ocean_polygon ocean
+            from ne_10m_ocean ocean
             where st_intersects(osm_country_polygon_gen7.geometry, ocean.geometry)
         ) as ocean
         on true
@@ -37,7 +37,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         FROM osm_country_polygon_gen6
         join lateral (
             select st_collectionextract(st_union(ocean.geometry), 3) as ocean
-            from osm_ocean_polygon ocean
+            from osm_ocean_polygon_gen4 ocean
             where st_intersects(osm_country_polygon_gen6.geometry, ocean.geometry)
         ) as ocean
         on true
@@ -49,7 +49,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         FROM osm_country_polygon_gen5
         join lateral (
             select st_collectionextract(st_union(ocean.geometry), 3) as ocean
-            from osm_ocean_polygon ocean
+            from osm_ocean_polygon_gen3 ocean
             where st_intersects(osm_country_polygon_gen5.geometry, ocean.geometry)
         ) as ocean
         on true
@@ -61,7 +61,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         FROM osm_country_polygon_gen4
         join lateral (
             select st_collectionextract(st_union(ocean.geometry), 3) as ocean
-            from osm_ocean_polygon ocean
+            from osm_ocean_polygon_gen2 ocean
             where st_intersects(osm_country_polygon_gen4.geometry, ocean.geometry)
         ) as ocean
         on true
@@ -73,7 +73,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         FROM osm_country_polygon_gen3
         join lateral (
             select st_collectionextract(st_union(ocean.geometry), 3) as ocean
-            from osm_ocean_polygon ocean
+            from osm_ocean_polygon_gen1 ocean
             where st_intersects(osm_country_polygon_gen3.geometry, ocean.geometry)
         ) as ocean
         on true
@@ -85,7 +85,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         FROM osm_country_polygon_gen2
         join lateral (
             select st_collectionextract(st_union(ocean.geometry), 3) as ocean
-            from osm_ocean_polygon ocean
+            from osm_ocean_polygon_gen1 ocean
             where st_intersects(osm_country_polygon_gen2.geometry, ocean.geometry)
         ) as ocean
         on true
