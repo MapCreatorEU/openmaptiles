@@ -8,8 +8,15 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         NULL::int as rank
         FROM (
         -- etldoc: osm_country_polygon_gen8 -> layer_country:z6
-        SELECT osm_id, geometry, name, name_en, name_de, tags, NULL::int as scalerank
+        SELECT osm_id, st_difference(geometry, ocean), 
+        name, name_en, name_de, tags, NULL::int as scalerank
         FROM osm_country_polygon_gen8
+        join lateral (
+            select st_collectionextract(st_union(ocean.geometry), 3) as ocean
+            from osm_ocean_polygon ocean
+            where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
+        ) as ocean
+        on true
         WHERE zoom_level <= 6 AND geometry && bbox
         UNION ALL
         -- etldoc: osm_country_polygon_gen7 -> layer_country:z7
@@ -52,5 +59,11 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         FROM osm_country_polygon
         WHERE zoom_level >= 14 AND geometry && bbox
     ) AS country_polygon
-    ) AS country_all;
+    ) AS country_all
+    join lateral (
+	    select st_collectionextract(st_union(ocean.geometry), 3) as ocean
+	    from osm_ocean_polygon ocean
+	    where st_intersects(country_all.geometry, ocean.geometry)
+    ) as oceans
+    on true
 $$ LANGUAGE SQL IMMUTABLE;
