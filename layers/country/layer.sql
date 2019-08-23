@@ -8,7 +8,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         NULL::int as rank
         FROM (
         -- etldoc: osm_country_polygon_gen8 -> layer_country:z6
-        SELECT osm_id, st_difference(geometry, ocean), 
+        SELECT osm_id, st_difference(geometry, ocean) as geometry, 
         name, name_en, name_de, tags, NULL::int as scalerank
         FROM osm_country_polygon_gen8
         join lateral (
