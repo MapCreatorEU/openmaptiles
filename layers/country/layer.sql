@@ -7,6 +7,72 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         name, name_en, name_de, tags,
         NULL::int as rank
         FROM (
+        -- etldoc: osm_country_polygon_gen8 -> layer_country:z0
+        SELECT osm_id, st_difference(geometry, ocean) as geometry, 
+        name, name_en, name_de, tags, NULL::int as scalerank
+        FROM osm_country_polygon_gen8
+        join lateral (
+            select st_collectionextract(st_union(st_makevalid(ocean.geometry)), 3) as ocean
+            from ne_11m_ocean ocean
+            where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
+        ) as ocean
+        on true
+        WHERE zoom_level = 0 AND geometry && bbox
+        -- etldoc: osm_country_polygon_gen8 -> layer_country:z1
+        SELECT osm_id, st_difference(geometry, ocean) as geometry, 
+        name, name_en, name_de, tags, NULL::int as scalerank
+        FROM osm_country_polygon_gen8
+        join lateral (
+            select st_collectionextract(st_union(st_makevalid(ocean.geometry)), 3) as ocean
+            from ne_11m_ocean ocean
+            where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
+        ) as ocean
+        on true
+        WHERE zoom_level = 1 AND geometry && bbox
+        -- etldoc: osm_country_polygon_gen8 -> layer_country:z2
+        SELECT osm_id, st_difference(geometry, ocean) as geometry, 
+        name, name_en, name_de, tags, NULL::int as scalerank
+        FROM osm_country_polygon_gen8
+        join lateral (
+            select st_collectionextract(st_union(st_makevalid(ocean.geometry)), 3) as ocean
+            from ne_50m_ocean ocean
+            where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
+        ) as ocean
+        on true
+        WHERE zoom_level = 2 AND geometry && bbox
+        -- etldoc: osm_country_polygon_gen8 -> layer_country:z3
+        SELECT osm_id, st_difference(geometry, ocean) as geometry, 
+        name, name_en, name_de, tags, NULL::int as scalerank
+        FROM osm_country_polygon_gen8
+        join lateral (
+            select st_collectionextract(st_union(st_makevalid(ocean.geometry)), 3) as ocean
+            from ne_50m_ocean ocean
+            where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
+        ) as ocean
+        on true
+        WHERE zoom_level = 3 AND geometry && bbox
+        -- etldoc: osm_country_polygon_gen8 -> layer_country:z4
+        SELECT osm_id, st_difference(geometry, ocean) as geometry, 
+        name, name_en, name_de, tags, NULL::int as scalerank
+        FROM osm_country_polygon_gen8
+        join lateral (
+            select st_collectionextract(st_union(st_makevalid(ocean.geometry)), 3) as ocean
+            from ne_50m_ocean ocean
+            where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
+        ) as ocean
+        on true
+        WHERE zoom_level = 4 AND geometry && bbox
+        -- etldoc: osm_country_polygon_gen8 -> layer_country:z5
+        SELECT osm_id, st_difference(geometry, ocean) as geometry, 
+        name, name_en, name_de, tags, NULL::int as scalerank
+        FROM osm_country_polygon_gen8
+        join lateral (
+            select st_collectionextract(st_union(st_makevalid(ocean.geometry)), 3) as ocean
+            from ne_10m_ocean ocean
+            where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
+        ) as ocean
+        on true
+        WHERE zoom_level = 5 AND geometry && bbox
         -- etldoc: osm_country_polygon_gen8 -> layer_country:z6
         SELECT osm_id, st_difference(geometry, ocean) as geometry, 
         name, name_en, name_de, tags, NULL::int as scalerank
@@ -17,7 +83,7 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
             where st_intersects(osm_country_polygon_gen8.geometry, ocean.geometry)
         ) as ocean
         on true
-        WHERE zoom_level <= 6 AND geometry && bbox
+        WHERE zoom_level = 6 AND geometry && bbox
         UNION ALL
         -- etldoc: osm_country_polygon_gen7 -> layer_country:z7
         SELECT osm_id, st_difference(geometry, ocean) as geometry, 
