@@ -142,10 +142,12 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         -- etldoc: osm_country_polygon_gen3 -> layer_country:z11
         SELECT osm_id, st_difference(geometry, ocean) as geometry, 
         name, name_en, name_de, tags, NULL::int as scalerank
-        FROM osm_country_polygon_gen3
+        -- FROM osm_country_polygon_gen3
+        FROM osm_country_polygon
         join lateral (
             select st_collectionextract(st_union(st_makevalid(ocean.geometry)), 3) as ocean
-            from osm_ocean_polygon_gen1 ocean
+            -- from osm_ocean_polygon_gen1 ocean
+            from osm_ocean_polygon ocean
             where st_intersects(osm_country_polygon_gen3.geometry, ocean.geometry)
         ) as ocean
         on true
