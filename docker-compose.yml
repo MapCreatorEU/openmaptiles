@@ -113,6 +113,7 @@ services:
       BBOX: ${BBOX}
       MIN_ZOOM: ${MIN_ZOOM}
       MAX_ZOOM: ${MAX_ZOOM}
+      TILE_TIMEOUT: 36000000
   postserve:
     image: "openmaptiles/postserve:0.2"
     env_file: .env
