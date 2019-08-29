@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 
-./notify-slack --channel="notify-sven" --message="Started with pre-processing"
+ip=$(curl ipinfo.io/ip)
+
+./notify-slack --channel="notify-sven" --message="Started with pre-processing $ip"
 ./setup_base.sh
-./notify-slack --channel="notify-sven" --message="done with pre-processing"
+./notify-slack --channel="notify-sven" --message="done with pre-processing $ip"
 while read country
 do
     ./run_country.sh $country
@@ -10,3 +12,5 @@ do
     aws s3 cp data/tiles.mbtiles s3://m4n-highlight/$country.mbtiles
     ./notify-slack --channel="notify-sven" --message="$country uploaded :heavy_check_mark"
 done < countries.txt
+
+./notify-slack --channel="notify-sven" --message="Done with calculating $ip"
