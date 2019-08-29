@@ -24,7 +24,11 @@ RETURNS TABLE(osm_id bigint, geometry geometry, class text, name text, name_en t
         WHERE zoom_level = 0 AND geometry && bbox
         UNION ALL
         -- etldoc: osm_country_polygon_gen8 -> layer_country:z1
-        SELECT osm_id, st_difference(geometry, ocean) as geometry, 
+        SELECT osm_id,
+        case
+            when ocean is null then geometry
+            else st_difference(geometry, ocean)
+        end as geometry,
         name, name_en, name_de, tags, NULL::int as scalerank
         FROM osm_country_polygon_gen8
         join lateral (
