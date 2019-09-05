@@ -22,6 +22,11 @@ services:
     env_file: .env
     networks:
     - postgres_conn
+  import-countries:
+    image: "mapcreatorio/import-countries:latest"
+    env_file: .env
+    networks:
+    - postgres_conn
   import-lakelines:
     image: "openmaptiles/import-lakelines:1.0"
     env_file: .env

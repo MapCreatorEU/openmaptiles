@@ -66,7 +66,7 @@ download-geofabrik:
 	@echo Download area :   $(area)
 	@echo [[ example: make download-geofabrik  area=albania ]]
 	@echo [[ list areas:  make download-geofabrik-list       ]]
-	docker-compose run --rm import-osm  ./download-geofabrik.sh $(area)
+	docker-compose run --rm import-osm  ./download-geofabrik.sh $(area) $(iso_code)
 	ls -la ./data/$(area).*
 	@echo "Generated config file: ./data/docker-compose-config.yml"
 	@echo " "
