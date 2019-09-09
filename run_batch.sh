@@ -7,7 +7,7 @@ ip=$(curl ipinfo.io/ip)
 
 echo "" > completed.txt
 
-readonly count=$(cat $COUNTRY_FILE  | yq .code | wc -l)
+readonly count=$(cat $COUNTRY_FILE  | yq .[].code | wc -l)
 for i in `seq 0 $count`; do
     country=$(cat $COUNTRY_FILE | yq .[$i].name)
     iso_code=$(cat $COUNTRY_FILE | yq .[$i].code)
