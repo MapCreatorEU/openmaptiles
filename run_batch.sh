@@ -7,10 +7,6 @@ ip=$(curl ipinfo.io/ip)
 
 echo "" > completed.txt
 
-./notify-slack --channel="$CHANNEL" --message="Started with pre-processing $ip"
-./setup_base.sh > log 2>&1
-./notify-slack --channel="$CHANNEL" --message="done with pre-processing $ip"
-
 readonly count=$(cat $COUNTRY_FILE  | yq .code | wc -l)
 for i in `seq 0 $count`; do
     country=$(cat $COUNTRY_FILE | yq .[$i].name)
